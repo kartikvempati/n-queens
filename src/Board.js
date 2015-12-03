@@ -172,10 +172,15 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var rowArr = this.rows();
+      // iterate through the rows
       for (var i = 0; i < this.rows().length; i++) {
+        // iterate through the columns
         for (var j = 0; j < this.rows().length;j++) {
+          // if row or colum is on the top or right edge of the matrix (unique diagonals)
           if (i === 0 || j === 0 ) {  
+            // get column index of the diagonal in the first row
             var majorDiagonal = this._getFirstRowColumnIndexForMajorDiagonalOn(i,j);
+            // check for major diagonal conflict
             if(this.hasMajorDiagonalConflictAt(majorDiagonal)) {
               return true;
             }
@@ -190,15 +195,52 @@
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
-    // test if a specific minor diagonal on this board contains a conflict
+    // test if a specific minor diagonal on this b contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      //declare counter, startrow, startcol
+      var counter = 0;
+      var currRow = 0;
+      var currCol = minorDiagonalColumnIndexAtFirstRow;
+      var rowArr = this.rows();
+
+      while(!this._isInBounds(currRow, currCol)) {
+        currRow++;
+        currCol--;
+      }
+      while (this._isInBounds(currRow, currCol)) {
+        if (rowArr[currRow][currCol] === 1) {
+          counter++;
+        }
+        currRow++;
+        currCol--;    
+      }
+      return counter > 1;
     },
 
-    // test if any minor diagonals on this board contain conflicts
+    // test if any minor diagonals on this b contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var rowArr = this.rows();
+      // iterate through the rows
+      for (var i = 0; i < this.rows().length; i++) {
+        // iterate through the columns
+        for (var j = 0; j < this.rows().length; j++) {
+          // if row or colum is on the top or right edge of the matrix (unique diagonals)
+          if (i === 0 || j === rowArr.length - 1) {  
+            // get column index of the diagonal in the first row
+            var minorDiagonal = this._getFirstRowColumnIndexForMinorDiagonalOn(i,j);
+            //console.log("hello");
+            //check for major diagonal conflict
+            if(this.hasMinorDiagonalConflictAt(minorDiagonal)) {
+              return true;
+            }
+          }
+        }
+       }
+      return false;
     }
+
+
+
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
