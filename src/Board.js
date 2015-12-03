@@ -155,11 +155,11 @@
       var currCol = majorDiagonalColumnIndexAtFirstRow;
       var rowArr = this.rows();
 
-      while(!_isInBounds(currRow, currCol)) {
+      while(!this._isInBounds(currRow, currCol)) {
         currRow++;
         currCol++;
       }
-      while (_isInBounds(currRow, currCol)) {
+      while (this._isInBounds(currRow, currCol)) {
         if (rowArr[currRow][currCol] === 1) {
           counter++;
         }
@@ -173,14 +173,15 @@
     hasAnyMajorDiagonalConflicts: function() {
       var rowArr = this.rows();
       for (var i = 0; i < this.rows().length; i++) {
-        for (var j = 0l j < this.rows().length;i++){
-          var rowIndex = i;
-          var colIndex = j;
-          var majorDiagonal = _getFirstRowColumnIndexForMajorDiagonalOn:(rowIndex,colIndex);
-        }
-          if(hasMajorDiagonalConflictAt){
-            return true;
+        for (var j = 0; j < this.rows().length;j++) {
+          if (i === 0 || j === 0 ) {  
+            var majorDiagonal = this._getFirstRowColumnIndexForMajorDiagonalOn(i,j);
+            if(this.hasMajorDiagonalConflictAt(majorDiagonal)) {
+              return true;
+            }
           }
+        }
+      }
       return false;
     },
 
