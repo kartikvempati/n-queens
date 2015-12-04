@@ -46,25 +46,30 @@ window.findNRooksSolution = function(n) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solution = []; //fixme
-  var solutionCount;;
+  var solutionCount = 0;
 
   var board = new Board({n:n});
   var boardMatrix = board.rows();
 
-  var recurse = function(round) {
+  // var tempBoard = board.rows();
+  var recurse = function(round, tempBoard) {
+
     if (round === n) {
       // for (var i = 0; i < boardMatrix.length; i++) {
         // solution.push(board.get(i).slice());
       // }
+      solution.push(tempBoard.rows());
     }
     else {
         for (var col = 0; col < boardMatrix.length; col++) {
-          board.togglePiece(round, col);
-          if(!board.hasAnyRooksConflicts()) {
-            recurse(++round, board);
+          if (boardMatrix[round][col] !== 1) {
+            tempBoard.togglePiece(round, col);
+          }
+          if(!tempBoard.hasAnyRooksConflicts()) {
+            recurse(++round, tempBoard);
           }
           if ( round < n){
-            board.togglePiece(round,col);
+            tempBoard.togglePiece(round,col);
           }
         }
     }
@@ -72,6 +77,8 @@ window.countNRooksSolutions = function(n) {
   recurse(0,board);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  console.log(solution, "TEST");
+  solutionCount = solution.length;
   return solutionCount;
 };
 
@@ -79,8 +86,6 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) {
   var solution = [];
   var solutionCount = 0; //fixme
-
-
 
   var board = new Board({n:n});
   var boardMatrix = board.rows();
@@ -90,15 +95,17 @@ window.findNQueensSolution = function(n) {
       solution = [];
       for (var i = 0; i < boardMatrix.length; i++) {
         solution.push(board.get(i).slice());
+        // console.log(solution, "TEST");
       }
     }
     else {
         for (var col = 0; col < boardMatrix.length; col++) {
           board.togglePiece(round, col);
           if(!board.hasAnyQueensConflicts()) {
+
             recurse(round+1, board);
           }
-          if ( round < n){
+          if ( round <= n){
             board.togglePiece(round,col);
           }
         }
