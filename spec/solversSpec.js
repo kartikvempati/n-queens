@@ -60,7 +60,7 @@ describe('solvers', function() {
         }, 0);
 
         expect(numPieces).to.equal(0);
-        console.log(solutionBoard.get('n'));
+        console.log(solutionBoard.get('n'),n);
         expect(solutionBoard.get('n')).to.equal(n);
       });
     });
